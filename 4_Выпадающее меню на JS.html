@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .sub__menu{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <ul class="menu">
+        <li class="menu__li">
+            <a href="#" class="menu__link">
+                Пункт меню
+            </a>
+            <ul class="sub__menu">
+                <li>
+                    <a href="#">
+                        Подпункт меню 1
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Подпункт меню 2
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Подпункт меню 3
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu__li">
+            <a href="#" class="menu__link">
+                Пункт меню
+            </a>
+            <ul class="sub__menu">
+                <li>
+                    <a href="#">
+                        Подпункт меню 1
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Подпункт меню 2
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Подпункт меню 3
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu__li">
+            <a href="#" class="menu__link">
+                Пункт меню
+            </a>
+            <ul class="sub__menu">
+                <li>
+                    <a href="#">
+                        Подпункт меню 1
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Подпункт меню 2
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Подпункт меню 3
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <script>
+        window.addEventListener('load', function () {
+            var liClick = document.querySelectorAll('.menu__li');
+
+            for(var i = 0; i<liClick.length; i++){
+                liClick[i].addEventListener('click', showMenu);
+                liClick[i].addEventListener('mouseleave', hideMenu);
+            }
+
+            function showMenu() {
+                if(this.children.length>1){
+                    this.children[1].style.display = 'block';
+                } else {
+                    return false;
+                }
+            }
+            function hideMenu() {
+                if(this.children.length>1){
+                    this.children[1].style.display = 'none';
+                } else {
+                    return false;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
