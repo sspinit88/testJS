@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>>Найди клад!</title>
+</head>
+<style>
+
+</style>
+<body>
+<img id="map" width=400 height=400 src="http://nostarch.com/images/treasuremap.png">
+<p id="distance"></p>
+<p class="as"></p>
+
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+</script>
+<script>
+
+$(function () {
+
+//Создаем переменные
+    let width = 400;
+    let height = 400;
+    let clicks = 5;
+    let timer;
+    let timeOut = 5000;
+
+//Получить случайное число от 0 до size -1
+    function getRandomNumber(size) {
+        return Math.floor(Math.random()*size);
+    }
+
+//Случайная позиция клада
+    let target = {
+        x: getRandomNumber(width),
+        y: getRandomNumber(height)
+    };
+
+//Вычислить расстояние от клика (event) до клада (target)
+    function getDistance(event, target) {
+        let diffX = event.offsetX - target.x;
+        let diffY = event.offsetY - target.y;
+        return Math.sqrt((diffX*diffX) + (diffY*diffY));
+    }
+// получить подсказку для игрока
+    function getDistanceHint(distance) {
+        if (distance < 10) {
+            return "Еще чуть-чуть!";
+        } else if (distance < 15) {
+            return "Обожжжжжжжешься!!";
+        } else if (distance < 20) {
+            return "Очень горячо!";
+        } else if (distance < 40) {
+            return "Горячо!";
+        } else if (distance < 80) {
+            return "Тепло";
+        } else if (distance < 160) {
+            return "Холодно";
+        } else if (distance < 320) {
+            return "Очень холодно";
+        } else {
+            return "Замерзнешь!";
+        }
+    }
+
+//Добавляем элементу img обработчик клика
+    $("#map").on('click', function (e) {
+        clicks -= 1;
+        $('.as').text('Осталось попыток:' + ' ' + clicks);
+        //Получаем расстояние от места клика до клада
+        let distance = getDistance (e, target);
+        //Преобразуем расстояние в подсказку
+        let DistanceHint = getDistanceHint(distance);
+        //Записываем в элемент #distance новую подсказку
+        $("#distance").text(DistanceHint);
+        //Если вы достаточно близко, то поздравляем с победой
+        if (distance < 10) {
+            $('#distance').text("Клад найден!");
+            reloadPageTimer();
+        }
+        if (clicks <= 0){
+            $('#distance').text("Вы израсходовали все попытки! Страница будет автоматически перезагружена и вы сможете начать игру сначала.");
+            clicks = 1;
+            reloadPageTimer();
+        }
+    });
+
+    function reloadPageTimer() {
+        timer = setTimeout(reloadPage, timeOut);
+    }
+
+    function reloadPage() {
+        location.reload();
+    }
+
+}); //fu
+
+</script>
+</body>
+</html>

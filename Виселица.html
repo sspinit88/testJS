@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Висилица</title>
+</head>
+<style>
+
+</style>
+<body>
+    <div class="wrapper">
+        <p>
+            Угадайте букву или нажмите "Закончить игру" для выхода из игры.
+        </p>
+        <p>
+            Количество букв в загаданном слове: <span class="outNum"></span>.
+        </p>
+        <p>
+            Всего попыток: <span class="attemptsTotal"></span>.
+        </p>
+        <p>
+            У Вас осталось попыток: <span class="attempts"></span>
+        </p>
+        <input type="text" class="inpAbc">
+        <button class="btnGo">
+            Угадать
+        </button>
+        <button class="btnEnd">
+            Закончить игру
+        </button>
+        <hr>
+        <p class="out">
+
+        </p>
+    </div>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+</script>
+<script>
+    /*--vanilla JS--*/
+window.addEventListener('load', function(){
+    /*Виселица*/
+    let words = [
+        'оладушек',
+        'макака',
+        'программа',
+        'мымра',
+        'СОБАКА',
+        'КИКИМОРА',
+        'ток'
+    ];
+
+    /*генерируем случайное слово*/
+    let word = words[Math.floor(Math.random() * words.length)];
+    /*делаем все буквы слова нижним регистром*/
+    word = word.toLowerCase();
+    console.log(word);
+    /*вычисляем количество символов в сгенерированном слове*/
+    let remainingLetters = word.length;
+    /*создаем пустой массив, который будем использовать для накопления угаданных букв*/
+    let answerArray = [];
+
+    /*Создаем переменные ввода - вывода данных*/
+
+    let outNum = document.querySelector('.outNum');
+    let out = document.querySelector('.out');
+    let btnGo = document.querySelector('.btnGo');
+    let btnEnd = document.querySelector('.btnEnd');
+    let guess = document.querySelector('.inpAbc');
+    let attemptsTotal = document.querySelector('.attemptsTotal');
+    let attempts = document.querySelector('.attempts');
+
+    /*Устанавливаем кол-во доступных попыток для угадывания буквы*/
+    attemptsTotal.innerHTML = remainingLetters * 2;
+    let count = remainingLetters * 2;
+
+    /*Перебираем символы в сгенерированном слове, замещаем символом.*/
+    for(let i=0; i < word.length; i++){
+        answerArray[i] = '*';
+    }
+
+    btnGo.addEventListener('click', gameGo);
+    btnEnd.addEventListener('click', gameEnd);
+    guess.addEventListener('input', removeAbc);
+
+    /*Вывод кол-ва букв в загаданном слове*/
+    outNum.innerHTML = remainingLetters;
+
+    function gameGo() {
+
+        if(count > 0 && remainingLetters > 0){
+            guess = document.querySelector('.inpAbc');
+            guess = guess.value.trim().toLowerCase();
+            console.log(guess);
+
+            for (let j = 0; j < word.length; j++) {
+                if (word[j] === guess) {
+                    answerArray[j] = guess;
+                    remainingLetters--;
+                }
+            }  // for
+            out.innerHTML ='Вы отгадали:' + ' ' + answerArray.join(' ') + '.';
+
+            count = count - 1;
+            attempts.innerHTML = count;
+
+            guess.value = ' ';
+        } // while
+        else if(count > 0){
+            out.innerHTML ='Вы выйграли! Загаданное слово:' + ' ' + word.toUpperCase() + '.';
+        }
+        else {
+            gameEnd();
+        } // else
+    } // gameGo()
+
+    function removeAbc() {
+        let pattern = /^[аА-яЯ]/g;
+
+        if(!pattern.test(this.value)) {
+            let newVal = this.value.replace(/[^аА-яЯ]/g, '');
+            this.value = newVal;
+        }
+    }
+    function gameEnd() {
+        out.innerHTML = 'Вы проиграли! Загаданное слово:' + ' ' + word.toUpperCase() + '.';
+    } //  gameEnd()
+
+
+
+
+
+
+
+//    while(remainingLetters > 0){
+//        alert(answerArray.join(' '));
+//
+//        let guess = prompt('Угадайте букву или нажмите "Отмена" для выхода из игры.');
+//        guess = guess.toLowerCase();
+//        console.log(guess);
+//
+//        if(guess === null){
+//            break;
+//        }
+//        else if(guess.length !== 1) {
+//            alert('Введите только одну букву!');
+//        }
+//        else {
+//            for (let j = 0; j < word.length; j++){
+//                if (word[j] === guess){
+//                    answerArray[j] = guess;
+//                    remainingLetters--;
+//                }
+//            }
+//        } // else
+//    } // while
+//
+//    alert(answerArray.join(' '));
+//    alert('Вы победили! Загаданное слово:' + ' ' + word);
+
+});
+
+</script>
+</body>
+</html>
