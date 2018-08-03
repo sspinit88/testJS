@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>>test</title>
+</head>
+<style>
+    body{
+        margin: 0;
+        padding: 0;
+    }
+    .wrapper{
+        /*border:1px solid red;*/
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .wrapper>p{
+        text-align: center;
+    }
+</style>
+<body>
+    <div class="wrapper">
+        <p>
+            Ширина окна: <span></span>
+        </p>
+    </div>
+
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+</script>
+<script>
+
+$(function () {
+
+    let $oldWidth = $(window).width();
+    let $textWidth = $('.wrapper>p>span');
+    let $text = $('.wrapper>p');
+    let $newWidth;
+
+    $(window).on('resize' ,function () {
+
+        $newWidth = $(this).outerWidth();
+
+        doWidth();
+        doTextColor();
+
+    });
+
+    function  doWidth() {
+        if($newWidth !== $oldWidth){
+            $textWidth.stop(true).text($newWidth + " " + "px.");
+        }
+    }
+
+    function doTextColor() {
+        if($newWidth >= 1300){
+            $text.css({'border':'1px solid transparent', 'color':'red'});
+        }
+        else if($newWidth < 1300) {
+            $text.css({'border':'1px solid green', 'color':'red'});
+        }
+    }
+
+
+}); //fu
+
+</script>
+</body>
+</html>

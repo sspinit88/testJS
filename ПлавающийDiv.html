@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Плавающий div2</title>
+    <title>Плавающий div</title>
 </head>
 <style>
     body{
@@ -154,75 +154,41 @@
 
 $(function () {
 
+
+// Размеры вьюпорта
     function getViewport() {
 
-        let viewportWidth;
+        let viewPortWidth;
+//        let viewPortHeight;
 
-        if(typeof $(window).outerWidth() != 'undefined'){
-            viewportWidth = $(window).outerWidth();
+        if (typeof $(window).outerWidth() !== 'undefined') {
+            viewPortWidth = $(window).outerWidth();
         }
 
-        return{
-            width:viewportWidth,
-        }
+//        if (typeof window.innerWidth != 'undefined') {
+//            viewPortWidth = window.innerWidth;
+//            viewPortHeight = window.innerHeight;
+//        }
+//
+//        else if (typeof document.documentElement != 'undefined'
+//            && typeof document.documentElement.clientWidth !=
+//            'undefined' && document.documentElement.clientWidth != 0) {
+//            viewPortWidth = document.documentElement.clientWidth;
+//            viewPortHeight = document.documentElement.clientHeight;
+//        }
+//
+//        else {
+//            viewPortWidth = document.getElementsByTagName('body')[0].clientWidth;
+//            viewPortHeight = document.getElementsByTagName('body')[0].clientHeight;
+//        }
 
-    } // getViewport
-
-    let viewportWidth;
-
-    let setViewport = function () {
-        viewportWidth = getViewport().width;
-    };
-
-    let $asideCh = $('.leftAside > ul');
-    let $aside = $('.leftAside');
-    let $asideChHeight = $asideCh.outerHeight();
-    let $asideChWidth = $asideCh.outerWidth();
-    let topInStop = $asideHeight - $asideChHeight - 10;
-
-    function setFixBlock() {
-
-        let $totalTop = $(window).scrollTop();
-
-        let $stopTop= $('.stopTop').offset().top - 30;
-
-        let stopPoint = $stopTop - $asideChHeight;
-        let $asideTop = $aside.offset().top;
-        let $asideHeight = $aside.outerHeight();
-        let topInStop = $asideHeight - $asideChHeight - 10;
-        console.log(topInStop + ' ' + '-' + ' ' + 'topInStop');
-
-        if(viewportWidth < 1000){
-            $asideCh.css({
-                'position':'static',
-            });
-        }
-
-        if(topInStopNew !== topInStop){
-            topInStop = topInStopNew;
-        }
-
-        if($totalTop > stopPoint){
-            $asideCh.css({
-                'position':'absolute',
-                'top': topInStop,
-                'width': $asideChWidth,
-            });
-        }
-        else if($totalTop >= $asideTop){
-            $asideCh.css({
-                'position':'fixed',
-                'top':'0px',
-                'width': $asideChWidth,
-            });
-        }
-        else {
-            $asideCh.css({
-                'position':'static',
-            });
-        }
-
-    } // setFixBlock
+        return {
+            width: viewPortWidth,
+//            height: viewPortHeight
+        };
+    }
+    console.log(getViewport().width);
+// Задержка выполнения функции
     function delay () {
         let a = 0;
         return function (b, c){
@@ -230,23 +196,102 @@ $(function () {
             a = setTimeout(b, c);
         }
     }
+        /*Получаю плавающий блок*/
+        let $asideCh = $('.childrenBlock');
+        /*Получаю родительский блок, относительно плавающего*/
+        let $aside = $('.leftAside');
+        /*Получаем верхнюю координату плавающего блока*/
+        let $asideChTop = $asideCh.offset().top;
+        /*Получаем верхнюю координату, относительно плавающего*/
+        let $asideTop = $aside.offset().top;
+//        console.log($asideTop + ' ' + '-' + ' ' + '$asideTop');
+        /*Высота плавающего*/
+        let $asideChHeight = $asideCh.outerHeight();
+        /*Высота родительского*/
+         let $asideHeight = $aside.outerHeight();
+//        console.log($asideHeight + ' ' + '-' + ' ' + '$asideHeight');
+        /*Ширина плавающего*/
+        let $asideChWidth = $asideCh.outerWidth();
+        /*Начальная координата блока, перед которым плавающий должен остановиться.*/
+        let $stopTop = $('.stopTop').offset().top - 30;
+//        console.log($stopTop + ' ' + '-' + ' ' + '$stopTop');
+        /*точка остановки*/
+        let stopPoint = $stopTop - $asideChHeight;
+//        console.log(stopPoint + ' ' + '-' + ' ' + 'stopPoint');
+        /**/
+        let topInStop = $asideHeight - $asideChHeight - 10;
 
-    let delayer = delay();
+        // Задержка выполнения функции
+        let delayer = delay();
 
-    setViewport();
+        // Ширина вьюпорта
+        let viewportWidth;
 
-    $(window).resize(function () {
-        delayer(function() {
-            setViewport();
-            setFixBlock();
-        }, 100);
-    });
+        // Размер вьюпорта
+        let setViewport = function () {
+            viewportWidth = getViewport().width;
+        };
 
-    $(window).on('scroll', function () {
-        setFixBlock();
-    }); // scroll
+        // Позиционирование плавающего блока
+        let setStateFixedBlock = function () {
 
-}); //fu
+            if (viewportWidth < 1000) {
+                $asideCh.css({
+                    'position':'static',
+                });
+                return;
+            }
+
+            let $totalTop = $(this).scrollTop();
+            let $stopTopNew = $('.stopTop').offset().top - 30;
+            let stopPointNew = $stopTopNew - $asideChHeight;
+            let $asideTopNew = $aside.offset().top;
+//            console.log($asideTopNew + ' ' + '-' + ' ' + '$asideTopNew');
+
+            let $asideHeightNew = $aside.outerHeight();
+            let topInStopNew = $asideHeightNew - $asideChHeight - 10;
+
+            if( stopPointNew !== stopPoint ||
+                $asideTopNew !== $asideTop ||
+                topInStopNew !== topInStop ){
+                stopPoint = stopPointNew;
+                $asideTop = $asideTopNew;
+                topInStop = topInStopNew;
+            }
+
+            if($totalTop > stopPoint){
+                $asideCh.css({
+                    'position':'absolute',
+                    'top': topInStop,
+                    'width': $asideChWidth,
+                });
+            }
+            else if($totalTop >= $asideTop){
+                $asideCh.css({
+                    'position':'fixed',
+                    'top':'0px',
+                    'width': $asideChWidth,
+                });
+            }
+            else {
+                $asideCh.css({
+                    'position':'static',
+                });
+            }
+        };
+
+        setViewport();
+        $(window).resize(function () {
+            delayer(function() {
+                setViewport();
+                setStateFixedBlock();
+            }, 100);
+        });
+
+        $(window).on('scroll', function () {
+            setStateFixedBlock();
+        }); // scroll
+}) // fu
 
 </script>
 </body>
