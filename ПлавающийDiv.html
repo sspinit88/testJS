@@ -207,7 +207,7 @@ $(function () {
         /*Высота плавающего*/
         let $asideChHeight = $asideCh.outerHeight();
         /*Высота родительского*/
-         let $asideHeight = $aside.outerHeight();
+        let $asideHeight = $aside.outerHeight();
 //        console.log($asideHeight + ' ' + '-' + ' ' + '$asideHeight');
         /*Ширина плавающего*/
         let $asideChWidth = $asideCh.outerWidth();
@@ -241,11 +241,13 @@ $(function () {
                 return;
             }
 
-            let $totalTop = $(this).scrollTop();
+//          let $totalTop = $(this).scrollTop();
+            let $totalTop = $(window).scrollTop();
+
             let $stopTopNew = $('.stopTop').offset().top - 30;
             let stopPointNew = $stopTopNew - $asideChHeight;
             let $asideTopNew = $aside.offset().top;
-//            console.log($asideTopNew + ' ' + '-' + ' ' + '$asideTopNew');
+            console.log($stopTopNew+ ' ' + '-' + ' ' + '$stopTopNew');
 
             let $asideHeightNew = $aside.outerHeight();
             let topInStopNew = $asideHeightNew - $asideChHeight - 10;

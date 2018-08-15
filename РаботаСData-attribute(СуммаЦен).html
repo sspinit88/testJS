@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Работа с data-*** (Сумма цен)</title>
+</head>
+<style>
+    body{
+        min-width: 270px;
+    }
+    body, p{
+        margin: 0;
+        padding: 0;
+    }
+    a{
+        text-decoration: none;
+
+    }
+    li{
+        list-style: none;
+    }
+
+    .wrapper{
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    .result{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: blue;
+        margin-top: 20px;
+        margin-left: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+    }
+
+    .btn{
+        width: 100px;
+        height: 100px;
+        border:2px solid #000;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        color: #fff;
+        background: tan;
+    }
+    .btn.active {
+        border:2px solid blue;
+        background: green;
+        text-align: center;
+    }
+
+</style>
+<body>
+    <div class="wrapper">
+        <div class="btn " data-price="1200">1200</div>
+        <div class="btn" data-price="1020">1020</div>
+        <div class="btn" data-price="5200">5200</div>
+        <div class="btn" data-price="500">500</div>
+        <div class="btn" data-price="4200">4200</div>
+        <div class="result">0</div>
+    </div><!--wrapper-->
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+</script>
+<script>
+
+    window.addEventListener('load', function () {
+
+        /*получаем все кнопки*/
+        let btn = document.querySelectorAll('.btn');
+        /*получаем поле вывода результата*/
+        let res = document.querySelector('.result');
+
+        /*перебираем массив кнопок*/
+        for(let i = 0; i < btn.length; i++ ){
+            /*вешаем на каждую i-ю кнопку событие по клику*/
+            btn[i].addEventListener('click', onClick)
+        }
+        
+        function onClick() {
+            /*переключаем класс*/
+            this.classList.toggle('active');
+            cSum();
+        } // onClick()
+        
+        function cSum() {
+            let sum = 0;
+            for(let i = 0; i < btn.length; i++ ){
+                if(btn[i].classList.contains('active')){
+                    sum += parseInt(btn[i].getAttribute('data-price'));
+                }
+            }
+            res.innerHTML = sum;
+        }
+    
+
+    }); // load
+
+</script>
+</body>
+</html>

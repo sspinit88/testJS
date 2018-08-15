@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Смена фона и размера шрифта по клику</title>
+</head>
+<style>
+    body{
+        min-width: 270px;
+    }
+    body, p{
+        margin: 0;
+        padding: 0;
+    }
+    a{
+        text-decoration: none;
+
+    }
+    li{
+        list-style: none;
+    }
+
+    .wrapper{
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    .colorBlock{
+        width: 100px;
+        height: 100px;
+        border:1px solid #000;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        color: #fff;
+        background: tan;
+    }
+
+</style>
+<body>
+    <div class="wrapper">
+        <div class="colorBlock">1</div>
+        <div class="colorBlock">2</div>
+        <div class="colorBlock">3</div>
+    </div><!--wrapper-->
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+</script>
+<script>
+
+    window.addEventListener('load', function () {
+
+        /*получаем массив эл-ов*/
+        let colorBlock = document.querySelectorAll('.colorBlock');
+        /*задаем два массива с цветом и размером шрифта*/
+        let color = ['red', 'grey', 'green', 'black', '#f65', 'tan'];
+        let fontSize = ['66', '30', '50', '90', '77'];
+        /*перебираем массив имеющихся эл-ов*/
+        for(let i = 0; i < colorBlock.length; i++ ){
+            /*на эл-т, по которому кликнули вешаем функцию*/
+            colorBlock[i].addEventListener('click', colorSet)
+        }
+
+        function colorSet() {
+            /*рандомно получаем размер шрифта, выведит в виде строки*/
+            let size = parseInt(Math.random() * fontSize.length);
+            /*строку, полученную выше преобразуем в целое число*/
+            size = parseInt(fontSize[size]);
+            /*получаем рандомный цвет*/
+            let bgNum = parseInt(Math.random() * color.length);
+            /*устанавливаем полученные выше парамерты*/
+            this.style.fontSize = size + 'px';
+            this.style.backgroundColor = color[bgNum];
+        }
+
+    }); // load
+
+</script>
+</body>
+</html>
