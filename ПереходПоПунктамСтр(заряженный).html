@@ -141,7 +141,7 @@
         var timeout = 50;
         var timer;
 
-        $(window).on('scroll', function(){
+        $(document).on('scroll', function(){
             clearInterval(timer);
             timer = setTimeout(onScroll, timeout);
         });
@@ -164,7 +164,7 @@
             console.log(1);
 
             /*Переключение подсветка ссылки меню при прокрутке стр*/
-            for(var i = $links.length - 1; i >= 0 ; i--){
+            for(var i = $links.length - 1; i >= 0; i--){
                 var $link =  $links.eq(i);
                 var $id = $($link.attr('href'));
                 var $refId = $id.offset().top;
