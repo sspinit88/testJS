@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Валидация формы</title>
+</head>
+<style>
+    body{
+        min-width: 270px;
+    }
+    body, p{
+        margin: 0;
+        padding: 0;
+    }
+    a{
+        text-decoration: none;
+
+    }
+    li{
+        list-style: none;
+    }
+
+    .wrapper{
+        margin-top: 100px;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        max-width: 300px;
+    }
+
+    .err{
+        outline: 1px solid red;
+    }
+
+    input{
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+
+
+</style>
+<body>
+    <div class="wrapper">
+        <input type="text" class="number" />
+
+        <input type="button" value="Run!" class="result_button" />
+        <span id="result" style="display: block; font-size: 14px; margin: 10px 0; color: red;"></span>
+    </div><!--wrapper-->
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+</script>
+<script>
+
+    window.addEventListener('load', function () {
+
+        let inp = document.querySelectorAll('.number');
+        let btn = document.querySelector('.result_button');
+        let res = document.querySelector('#result');
+
+        btn.addEventListener('click', onClick);
+
+        function onClick() {
+
+            let numbers = inp;
+            let outerText = getNumArr(numbers);
+
+            res.innerHTML = outerText;
+
+//            btn.disabled = true;
+        } // onClick()
+
+        function getNumArr(getNumbers) {
+
+            let num = getNumbers;
+
+            for(let i = 0; i < num.length; i++){
+                /*получаю набор введеных значений, обрезаю тримом пробелы по краям*/
+                let numValStr = num[i].value.trim();
+                /*разбиваю полученный набор по пробелу, сортирую от меньшего к большему*/
+                let numArr = numValStr.split(' ').sort(function (a, b) {
+                                                    return a - b;
+                                                });
+                /*находим позицию среднего значения*/
+                let mid = Math.floor((numArr.length) / 2);
+                /*находим позицию мфксимального значения*/
+                let numArrMax = numArr[numArr.length-1];
+                /*обратно к строке*/
+                let outNumArr = numArr.join(', ');
+
+                return num = 'Введеные значения по порядку: ' +  outNumArr + '<br>' + 'Наибольшее : ' +
+                    numArrMax + '<br>' + 'Среднее: ' + numArr[mid] + '<br>' + 'Наименьшее: ' + numArr[0];
+
+            } // for
+
+        } // getNumArr()
+
+
+
+
+
+    }); // load
+
+</script>
+</body>
+</html>
