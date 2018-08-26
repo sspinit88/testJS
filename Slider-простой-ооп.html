@@ -131,11 +131,77 @@
 
     window.addEventListener('load', function () {
 
+        let slider1 = new Slider ({
+            btnPrev: '.slider-1 .prev',
+            btnNext: '.slider-1 .next',
+            img: '.slider-1 .photos img',
+        });
 
+        let slider2 = new SliderSequentialImg ({
+            btnPrev: '.slider-2 .prev2',
+            btnNext: '.slider-2 .next2',
+            img: '.slider-2 .photos img',
+        });
 
     }); // load
 
-  
+    class Slider {
+
+        constructor(settings){
+
+            this.btnPrev = document.querySelector(settings.btnPrev);
+            this.btnNext = document.querySelector(settings.btnNext);
+            this.img = document.querySelectorAll(settings.img);
+
+            this.i = 0;
+
+            this.img[0].classList.add('show');
+
+            this.btnPrev.addEventListener('click', this.prev.bind(this));
+            this.btnNext.addEventListener('click', this.next.bind(this));
+
+        } // constructor
+
+        prev(){
+            this.img[this.i].classList.remove('show');
+            this.i--;
+
+            if(this.i < 0){
+                this.i = this.img.length - 1;
+            }
+
+            this.img[this.i].classList.add('show');
+        }
+
+        next(){
+            let toHide = this.img[this.i];
+            this.i++;
+
+            if(this.i >= this.img.length){
+                this.i = 0;
+            }
+
+            this.commutator(toHide, this.img[this.i])
+
+        }
+
+        commutator(toHide, toShow){
+            toHide.classList.remove('show');
+            toShow.classList.add('show');
+        }
+
+    } // class Slider
+
+    class SliderSequentialImg extends Slider{
+
+        commutator(toHide, toShow){
+            toHide.addEventListener('transition', function () {
+                toHide.classList.remove('show');
+            });
+            toShow.classList.add('show');
+        }
+
+    }
 
 
 </script>

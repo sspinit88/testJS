@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>t</title>
+</head>
+<style>
+    *{
+        box-sizing: border-box;
+    }
+    body{
+        min-width: 270px;
+    }
+    body, p{
+        margin: 0;
+        padding: 0;
+    }
+    a{
+        text-decoration: none;
+
+    }
+    li{
+        list-style: none;
+        cursor: pointer;
+    }
+
+    .wrapper{
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        max-width: 100%;
+    }
+
+    .err{
+        border: 1px solid red;
+    }
+
+    .red{
+        color: red;
+    }
+
+    input{
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+
+</style>
+<body>
+    <div class="wrapper">
+        <div class="timer1"></div>
+        <div class="timer2"></div>
+        <div class="timer3"></div>
+        <div class="timer4"></div>
+        <div class="timer5"></div>
+    </div><!--wrapper-->
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+</script>
+<script>
+
+    window.addEventListener('load', function () {
+
+        let timer1 = new Timer('.timer1', 20);
+        timer1.start();
+        let timer2 = new Timer('.timer2', 18);
+        timer2.start();
+        let timer3 = new TimerFormat('.timer3', 4000);
+        timer3.start();
+        let timer4 = new TimerWords('.timer4', 500);
+        timer4.start();
+
+    }); //  load
+
+    class Timer {
+        /*в старом формате не используется "constructor(el, t){...}",
+            соответствует:
+                 this.elem = document.querySelector(el);
+                 this.time = t;
+
+                 а далее мы бы прописывали методы
+
+                 this.start() = function(){
+                          ...
+                 }
+        */
+        constructor(el, t){
+            this.elem = document.querySelector(el);
+            this.time = t;
+            /*создаем переменную, которая будет использоваться локально*/
+            this._timer;
+            this.render();
+        }
+
+        /*отвечает за запуск таймера, обновление в браузере,
+        остановку обратного отсчета по достижению 0*/
+        start(){
+            this._timer = setInterval(() => {
+                this.tick();
+                this.render();
+
+                if(this.time <= 0){
+                    this.stop();
+                }
+
+            }, 1000)
+        }
+
+        stop(){
+            clearInterval(this._timer);
+        }
+
+        tick(){
+            this.time --;
+        }
+
+        render(){
+            this.elem.innerHTML = this.time;
+        }
+
+    }
+
+    /*Ключевое слово extends используется в  объявлении класса или в
+    выражениях класса для создания дочернего класса.*/
+    class TimerFormat extends Timer{
+
+        splitTime(){
+            let time = {};
+            time.h = parseInt(this.time / 3600);
+            let hs = this.time % 3600;
+            time.m = parseInt(hs / 60);
+            time.s = hs % 60;
+            return time;
+        }
+
+        /*переопределяем метод родительского класса*/
+        render(){
+            let time = this.splitTime();
+            this.elem.innerHTML = `${time.h}:${time.m}:${time.s}`;
+        }
+
+    }
+
+    class TimerWords extends TimerFormat{
+
+        getEnding(num, var1, var2, var3){
+            let i1 = num % 100;
+            let i0 = num % 10;
+
+            if(i1 >= 5 && i1 < 20){
+                return var1;
+            }
+            else if(i0 >= 2 && i0 <= 4){
+                return var2;
+            }
+            else if(i0 == 1){
+                return var3;
+            }
+            else{
+                return var1;
+            }
+        }
+
+        render(){
+            let time = this.splitTime();
+
+            let h = this.getEnding(time.h, 'часов', 'часа', 'час');
+            let m = this.getEnding(time.m, 'минут', 'минуты', 'минута');
+            let s = this.getEnding(time.s, 'секунд', 'секунды', 'секунда');
+
+            this.elem.innerHTML = `${time.h} ${h} ${time.m} ${m} ${time.s} ${s}`;
+        }
+    }
+
+</script>
+</body>
+</html>

@@ -38,76 +38,52 @@
         max-width: 100%;
     }
 
-/*----------------------------------------*/
-
-    .slider {
-        position: relative;
-        text-align: center;
+    .slider{
         margin: 0 auto;
-        max-width: 800px;
+        text-align: center;
+        position: relative;
     }
 
-    .slider .photos {
+    .slider .photos{
         position: relative;
         width: 800px;
-        min-height: 600px;
+        height: 670px;
     }
 
-    .slider .photos img {
+    .slider .photos img{
+        width: 800px;
         position: absolute;
-        width: 100%;
         left: 0;
         right: 0;
         margin: 0 auto;
         opacity: 0;
-        transition: opacity ease 3s;
+        transition: opacity 3s;
     }
 
-    .slider-2 .photos img {
-        transform: rotateY(90deg);
-        transition: transform ease 1s;
-    }
-
-    .slider .photos img.show {
+    .slider .photos .showed{
         opacity: 1;
     }
 
-    .slider-2 .photos img.show {
-        transform: rotateY(0deg);
-    }
-
-    .slider .prev {
+    .slider .prev{
         position: absolute;
         z-index: 10000;
-        top: 45%;
-        left: 0;
+        top: 49%;
+        left: 0%;
     }
 
-    .slider .next {
+    .slider .next{
         position: absolute;
         z-index: 10000;
-        top: 45%;
+        top: 49%;
         right: 0;
+
     }
+
 
 </style>
 <body>
     <div class="wrapper">
-            <div class="slider-1 slider">
-                <div class="photos">
-                    <img src="img/1.jpg" alt="">
-                    <img src="img/2.jpg" alt="">
-                    <img src="img/3.jpg" alt="">
-                    <img src="img/4.jpg" alt="">
-                    <img src="img/5.jpg" alt="">
-                    <img src="img/6.jpg" alt="">
-                    <img src="img/7.jpg" alt="">
-                    <img src="img/8.jpg" alt="">
-                </div><!--photos-->
-                <input type="button" value="Назад" class="prev">
-                <input type="button" value="Вперед" class="next">
-            </div> <!--slider-->
-        <div class="slider-2 slider">
+        <div class="slider">
             <div class="photos">
                 <img src="img/1.jpg" alt="">
                 <img src="img/2.jpg" alt="">
@@ -117,10 +93,11 @@
                 <img src="img/6.jpg" alt="">
                 <img src="img/7.jpg" alt="">
                 <img src="img/8.jpg" alt="">
-            </div><!--photos-->
-            <input type="button" value="Назад" class="prev prev2">
-            <input type="button" value="Вперед" class="next next2">
-        </div> <!--slider-->
+            </div>
+            <input type="button" value="Назад" class="prev">
+            <input type="button" value="Вперед" class="next">
+
+        </div>
     </div><!--wrapper-->
 <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -131,11 +108,44 @@
 
     window.addEventListener('load', function () {
 
+        let btnPrev = document.querySelector('.slider .prev');
+        let btnNext = document.querySelector('.slider .next');
 
+        /*получаем массив с картинками*/
+        let images = document.querySelectorAll('.slider .photos img');
+        let i = 0;
+        images[0].classList.add('showed');
+
+        btnNext.addEventListener('click', function () {
+
+            /*при клике видимой картинке присваеваем пустой класс*/
+            images[i].classList.remove('showed');
+            /*затем увеличиваем i на единицу*/
+            i++;
+
+            if(i >= images.length){
+                i = 0;
+            }
+
+            images[i].classList.add('showed');
+
+        });
+
+        btnPrev.addEventListener('click', function () {
+
+            images[i].classList.remove('showed');
+            i--;
+
+            if(i < 0){
+                i = images.length-1;
+            }
+
+            images[i].classList.add('showed');
+
+        });
 
     }); // load
 
-  
 
 
 </script>
