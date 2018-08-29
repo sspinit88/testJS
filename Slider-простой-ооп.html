@@ -163,14 +163,14 @@
         } // constructor
 
         prev(){
-            this.img[this.i].classList.remove('show');
+            let toHide = this.img[this.i];
             this.i--;
 
             if(this.i < 0){
                 this.i = this.img.length - 1;
             }
 
-            this.img[this.i].classList.add('show');
+            this.commutator(toHide, this.img[this.i])
         }
 
         next(){

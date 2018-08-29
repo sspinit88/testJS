@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>t</title>
+</head>
+<style>
+    *{
+        box-sizing: border-box;
+    }
+    body{
+        min-width: 270px;
+    }
+    body, p{
+        margin: 0;
+        padding: 0;
+    }
+    a{
+        text-decoration: none;
+
+    }
+    li{
+        list-style: none;
+        cursor: pointer;
+    }
+
+    .wrapper{
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        max-width: 100%;
+    }
+
+/*----------------------------------------*/
+    .form{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .inputs{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    .form input{
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .form input:last-child{
+        margin-bottom:0;
+    }
+    .form input::placeholder{
+        text-align: center;
+    }
+
+    .err{
+        outline:2px solid red;
+        /*border:1px solid transparent;*/
+        transition:outline ease-in-out .5s;
+    }
+
+    .form input[type="submit"],
+    .form .addMail{
+        cursor: pointer;
+    }
+
+
+</style>
+<body>
+    <div class="wrapper">
+        <form class="form">
+            <div class="inputs">
+                <input type="text" class="check" data-validation="name" placeholder='ФИО заказчика'>
+                <input type="text" class="check" data-validation="mail" placeholder='Ваш e-mail'>
+            </div>
+            <input type="button" class="addMail" value="Доплительная почта">
+            <input type="submit" value="Отправить">
+        </form>
+
+        <template id="inputMail" style="display: none">
+            <input type="text" class="check" data-validation="e-mail" placeholder='Доплительный e-mail'>
+        </template>
+
+    </div><!--wrapper-->
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+</script>
+<script>
+
+'use strict';
+
+window.addEventListener('load', function(){
+
+    let inp = document.querySelectorAll('.check');
+    let form = document.querySelector('.form');
+    let btnAddMail = document.querySelector('.addMail');
+
+    let patterns = {
+        name: /^[a-zA-ZаА-яЯ0-9]+$/,
+        mail: /.+@.+\..+/,
+    };
+
+    form.addEventListener('submit', runEvent,);
+    form.addEventListener('click', addMail);
+
+    function runEvent(e) {
+
+        let err = false;
+
+        for(let i = 0; i < inp.length; i++){
+          let val = inp[i].value.trim();
+          let validation = inp[i].getAttribute('data-validation');
+          let pattern = (validation in patterns) ? patterns[validation] : /.+/ ;
+
+          if(pattern.test(val)){
+              inp[i].classList.remove('err');
+
+          }
+          else {
+              inp[i].classList.add('err');
+              err = true;
+          }
+
+        }
+
+        if(err){
+            e.preventDefault();
+        }
+
+    } // runEvent()
+
+    function  addMail(e) {
+        /*тут по всплытию будет добавляться input*/
+        let clickedElement = e.target;
+
+        if(clickedElement.classList.contains('addMail')){
+            addOtherMail();
+        }
+
+    } // addMail(e)
+    
+    function addOtherMail() {
+        let inputs = document.querySelector('.inputs');
+        /*обращаемся к темплету в html*/
+        let template = document.querySelector('#inputMail');
+//        let template = document.querySelector('.inputs');
+        let elem;
+
+        if('content' in template){
+            /*сохраняем в переменную контент, находящийся в темплете (всю разметку)*/
+            elem = template.content.children[0].cloneNode(true);
+
+            /*в этом варианте можно не создавать <template>, а клониповать нужный input из родительского div*/
+//            elem = template.content.children[1].cloneNode(true);
+        } else{
+            /*сохраняем в переменную контент, находящийся в темплете (всю разметку)*/
+            elem = template.children[0].cloneNode(true);
+//            elem = template.children[1].cloneNode(true);
+        }
+
+        /*добавляем в нужный div*/
+        inputs.appendChild(elem);
+
+        btnAddMail.disabled = true;
+    }
+
+}); // load
+
+
+</script>
+</body>
+</html>

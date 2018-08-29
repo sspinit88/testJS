@@ -64,30 +64,25 @@
 <script>
     'use strict';
 
-    window.addEventListener('load', function () {
+    $(function () {
 
-        let $inp = $('.iText');
         let $btn = $('.btn');
 
-        $btn.on('click', onClick);
+        $btn.on('click', inputClick);
 
-        $('.forI').on('click', '.iText' ,onB);
+        $('.forI').on('click', '.iText' , clickBtn);
 
-        function onClick() {
+        function inputClick() {
 
             $('<input>').addClass('iText').attr('type','text').appendTo($('.forI'));
 
-
         }
 
-        function onB() {
+        function clickBtn() {
 
             $(this).addClass('err');
 
         }
-
-
-
 
     }); // load
 

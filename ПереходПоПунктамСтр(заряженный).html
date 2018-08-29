@@ -142,7 +142,7 @@
         var timer;
 
         $(document).on('scroll', function(){
-            clearInterval(timer);
+            clearTimeout(timer);
             timer = setTimeout(onScroll, timeout);
         });
 
