@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>t</title>
+</head>
+<style>
+    *{
+        box-sizing: border-box;
+    }
+
+    body{
+        min-width: 270px;
+        margin: 0;
+        padding: 0;
+    }
+
+    a{
+        text-decoration: none;
+        cursor: pointer;
+        outline: none;
+    }
+
+    ul{
+        margin: 0;
+        padding: 0;
+    }
+
+    li{
+        list-style: none;
+    }
+
+    /*img{*/
+        /*max-width: 100%;*/
+        /*height:auto;*/
+    /*}*/
+
+    h1, h2, h3, h4, h5, h6, p {
+        margin: 0;
+        padding: 0;
+    }
+
+    .d-none{
+        display: none;
+    }
+
+    .wrapper{
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+
+        padding-left: 10px;
+        padding-right:10px;
+
+    }
+
+    .ears::after{
+        content: '';
+        display: block;
+        height: 100%;
+        width: 100vw;
+        background-color: inherit;
+        position: absolute;
+        top: 0;
+        z-index: -1;
+        margin: auto;
+        left: -50vw;
+        right: -50vw;
+    }
+
+    /*----------------------------------------*/
+    /*----------------------------------------*/
+
+</style>
+<body>
+    <div class="wrapper">
+
+        <canvas id="canvas" width="500px" height="500" style="border: 1px solid #000;">
+
+        </canvas>
+
+    </div><!--wrapper-->
+
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+</script>
+<script>
+
+'use strict';
+
+window.addEventListener('load', function () {
+
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = "DeepPink";
+    ctx.lineWidth = '2';
+    ctx.beginPath();
+    ctx.moveTo(120, 20);
+    ctx.lineTo(100, 60);
+    ctx.lineTo(100, 100);
+    ctx.lineTo(140, 100);
+    ctx.lineTo(140, 60);
+    ctx.lineTo(140, 60);
+    ctx.lineTo(120, 20);
+    ctx.fill();
+
+
+
+}); // load
+
+
+</script>
+</body>
+</html>

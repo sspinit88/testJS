@@ -100,27 +100,31 @@
         margin: auto;
     }
 
+    .sliderBlock .arSlider .imgContainer > p {
+        position: absolute;
+        z-index: 1000000;
+        font-size: 100px;
+        color: indigo;
+        top: 0;
+        left:20%;
+    }
+
     /*----------------------------------------*/
     /*----------------------------------------*/
     /*----------------------------------------*/
 
-    /*Стили слайдера*/
-    .spSlider{
+    /*arSlider*/
+    .arSlider{
         margin: 0 auto;
         position: relative;
     }
 
-    .spSlider .images{
-        text-align: center;
-        position: relative;
-    }
-
-    .spSlider img{
+    .arSlider img{
         max-width: 100%;
         height:auto;
     }
 
-    .spSlider .imgContainer {
+    .arSlider .imgContainer {
         position: absolute;
 
         top: 0;
@@ -134,13 +138,13 @@
         transition: opacity ease-in-out .8s;
     }
 
-    .spSlider .imgContainer.show {
+    .arSlider .imgContainer.active {
         opacity: 1;
     }
 
-    /*--Styling the buttons "Left" and "Right"--*/
+    /*--Buttons "Left" and "Right"--*/
 
-    .spSlider .btnLeft{
+    .arSlider .btnLeft{
         position: absolute;
 
         text-align: center;
@@ -159,11 +163,11 @@
         transition: background-color ease .5s;
     }
 
-    .spSlider .btnLeft:hover{
-        background-color: rgba(0, 0, 0, 0.2);
+    .arSlider .btnLeft:hover{
+        background-color: rgba(0, 0, 0, 0.15);
     }
 
-    .spSlider .btnRight{
+    .arSlider .btnRight{
         position: absolute;
 
         top: 0;
@@ -180,10 +184,79 @@
         transition: background-color ease .5s;
     }
 
-    .spSlider .btnRight:hover{
-        background-color: rgba(0, 0, 0, 0.2);
+    .arSlider .btnRight:hover{
+        background-color: rgba(0, 0, 0, 0.15);
     }
-    /*----*/
+
+    /*--_dots--*/
+
+    .arSlider .dotsBlock{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        min-width: 100%;
+
+        position: absolute;
+
+        bottom: 1%;
+
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        z-index: 100000;
+    }
+
+    .arSlider .dotsBlock .dotsItem{
+        display: inline-block;
+
+        position: relative;
+
+        cursor: pointer;
+
+        width: 20px;
+        height: 20px;
+
+        margin-left: 10px;
+
+        border-radius: 50%;
+        border: 1px solid transparent;
+
+        background: transparent;
+
+        transition: border ease .5s;
+    }
+
+    .arSlider .dotsBlock .dotsItem.active{
+        border: 1px solid rgba(255, 255, 255, 1);
+        transition: border ease .5s;
+    }
+
+    .arSlider .dotsBlock .dotsItem:first-child{
+        margin-left: 0;
+    }
+
+    .arSlider .dotsBlock .dotsItem::after{
+        content: ' ';
+
+        position: absolute;
+        cursor: pointer;
+
+        top: 17%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        margin: 0 auto;
+
+        width: 10px;
+        height: 10px;
+
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 1);
+
+        background: rgba(255, 255, 255, 1);
+    }
 
 </style>
 <body>
@@ -193,32 +266,56 @@
         </header>
         <div class="sliderBlock">
 
-            <div class="spSlider">
+            <div class="arSlider">
                 <div class="imgContainer">
                     <img src="img/1.jpg" alt="">
+                    <p>
+                        1
+                    </p>
                 </div>
                 <div class="imgContainer">
                     <img src="img/2.jpg" alt="">
+                    <p>
+                        2
+                    </p>
                 </div>
                 <div class="imgContainer">
                     <img src="img/3.jpg" alt="">
+                    <p>
+                        3
+                    </p>
                 </div>
                 <div class="imgContainer">
                     <img src="img/4.jpg" alt="">
+                    <p>
+                        4
+                    </p>
                 </div>
                 <div class="imgContainer">
                     <img src="img/5.jpg" alt="">
+                    <p>
+                        5
+                    </p>
                 </div>
                 <div class="imgContainer">
                     <img src="img/6.jpg" alt="">
+                    <p>
+                        6
+                    </p>
                 </div>
                 <div class="imgContainer">
                     <img src="img/7.jpg" alt="">
+                    <p>
+                        7
+                    </p>
                 </div>
                 <div class="imgContainer">
                     <img src="img/8.jpg" alt="">
+                    <p>
+                        8
+                    </p>
                 </div>
-            </div><!--sliderContainer-->
+            </div><!--arSlider-->
 
         </div><!--sliderBlock-->
         <footer>
@@ -236,55 +333,56 @@
 
 'use strict';
 
-/*-->
-.
--) Добавить dots.
-
--) Счетчик кол-ва фотографий (номер текущей / всего).
-
--)
-
--) Перевести в ООП
-
-<--*/
+/*
+    сделать! -> автоматическое переключение dots при смене слайдера;
+    runAutoPlay() - изменить таким образом, что бы можно было вставлють н-к уол-во функций
+*/
 
 window.addEventListener('load', function () {
 
-    let spSlider = document.querySelector('.spSlider');
-    let imgContainer = document.querySelectorAll('.spSlider .imgContainer');
-    let imgInSlider = document.querySelectorAll('.spSlider .imgContainer img');
-
-    let arrLeft;
-    let arrRight;
+    let arSlider = document.querySelector('.arSlider');
+    let imgContainer = document.querySelectorAll('.arSlider .imgContainer');
+    let imgInSlider = document.querySelectorAll('.arSlider .imgContainer img');
 
     const timeOut = 100;
-    let timeInterval = 3000;
+    let timeInterval = 5000;
 
+    let _arrLeft;
+    let _arrRight;
+    let _dots;
     let _inervalTimer;
-    let _i = 0;
+    let _sliderIndex = 0;
 
-    spSlider.addEventListener('click', moveOn);
+    arSlider.addEventListener('click', moveOn);
     window.addEventListener('keydown', moveOn);
 
+    getImgLength();
     showFirstImg();
     createArrBtn();
+    createDots();
+    moveDots();
     setSpContainerDimensions();
     getViewportWidth();
     setBtnDimensions();
     runAutoPlay();
-//    stopAutoPlay();
+
+    /*Функции вспомогательные*/
+
+    function getImgLength() {
+        return imgInSlider.length;
+    }
 
     /*Функции управления навигацией*/
 
     function showFirstImg() {
-        imgContainer[_i].classList.add('show');
+        imgContainer[_sliderIndex].classList.add('active');
     }
 
     function setBtnDimensions() {
-        arrLeft.style.height = getImgDimensions().height + 'px';
-        arrRight.style.height = getImgDimensions().height + 'px';
-        arrLeft.style.width = Math.ceil((getImgDimensions().width) / 20) + 'px';
-        arrRight.style.width = Math.ceil((getImgDimensions().width) / 20) + 'px';
+        _arrLeft.style.height = getImgDimensions().height + 'px';
+        _arrRight.style.height = getImgDimensions().height + 'px';
+        _arrLeft.style.width = Math.ceil((getImgDimensions().width) / 20) + 'px';
+        _arrRight.style.width = Math.ceil((getImgDimensions().width) / 20) + 'px';
     }
 
     function moveOn(e) {
@@ -293,49 +391,154 @@ window.addEventListener('load', function () {
 
         if(clickElement.classList.contains('btnRight') || pressedKey === 39){
             moveRight();
+            moveRightDots();
         }
         else if(clickElement.classList.contains('btnLeft') || pressedKey === 37){
             moveLeft();
+            moveLeftDots();
         }
-
     }
 
     function moveRight() {
+        let toHide = imgContainer[_sliderIndex];
 
-        imgContainer[_i].classList.remove('show');
+        _sliderIndex++;
 
-        _i++;
-
-        if(_i >= imgContainer.length){
-            _i = 0;
+        if(_sliderIndex >= imgContainer.length){
+            _sliderIndex = 0;
         }
 
-        imgContainer[_i].classList.add('show');
+        switchEffect(toHide, imgContainer[_sliderIndex]);
+
+        stopAutoPlay();
+        runAutoPlay();
     }
 
     function moveLeft() {
-        imgContainer[_i].classList.remove('show');
+        let toHide = imgContainer[_sliderIndex];
 
-        _i--;
+        _sliderIndex--;
 
-        if(_i < 0){
-            _i = imgContainer.length - 1;
+        if(_sliderIndex < 0){
+            _sliderIndex = imgContainer.length - 1;
         }
 
-        imgContainer[_i].classList.add('show');
+        switchEffect(toHide, imgContainer[_sliderIndex]);
+
+        stopAutoPlay();
+        runAutoPlay();
+    }
+
+    function switchEffect(toHide, toShow) {
+        toHide.classList.remove('active');
+        toShow.classList.add('active');
+    }
+
+    function moveDots() {
+        let elements = document.querySelectorAll('.dotsItem');
+        let dotsIndex;
+
+        elements[0].classList.add('active');
+
+        for(let i = 0; i < elements.length; i++ ){
+
+            elements[i].addEventListener('click', function () {
+
+                /*Получаем порядковый номер i-ой dots при клике*/
+                dotsIndex = Array.prototype.indexOf.call(elements, this);
+
+                /*Переключаем слайдер при клике по dots*/
+                if(dotsIndex != _sliderIndex){
+
+                    console.log(dotsIndex);
+
+                    Array.prototype.forEach.call(imgContainer, function (itemElement) {
+                        itemElement.classList.remove('active');
+                    });
+
+                    _sliderIndex = dotsIndex;
+                    imgContainer[_sliderIndex].classList.add('active');
+                }
+
+                /*удаляем класс "active" у всех соседних dots*/
+                Array.prototype.forEach.call(elements, function (itemElement) {
+                    itemElement.classList.remove('active');
+                });
+
+                this.classList.add('active');
+
+                stopAutoPlay();
+                runAutoPlay();
+            }); // click
+
+        } // for()
+
+    } // moveDots()
+
+    function moveRightDots() {
+        let el = document.querySelectorAll('.dotsItem');
+        let elIndex = 0;
+        let toHide = el[elIndex];
+
+        elIndex++;
+
+        if(elIndex >= imgContainer.length){
+            elIndex = 0;
+        }
+
+        Array.prototype.forEach.call(el, function (itemElement) {
+            itemElement.classList.remove('active');
+        });
+
+
+        switchEffect(toHide, el[_sliderIndex]);
+    }
+
+    function moveLeftDots() {
+        let el = document.querySelectorAll('.dotsItem');
+        let elIndex = 0;
+        let toHide = el[elIndex];
+
+        elIndex--;
+
+        if(elIndex < 0){
+            elIndex = imgContainer.length - 1;
+        }
+
+        Array.prototype.forEach.call(el, function (itemElement) {
+            itemElement.classList.remove('active');
+        });
+
+
+        switchEffect(toHide, el[_sliderIndex]);
     }
 
     /*Функции динамического добавления HTML-элементов*/
 
     function createArrBtn() {
-        arrLeft = document.createElement('div');
-        arrLeft.classList.add('btnLeft');
+        _arrLeft = document.createElement('div');
+        _arrLeft.classList.add('btnLeft');
 
-        arrRight = document.createElement('div');
-        arrRight.classList.add('btnRight');
+        _arrRight = document.createElement('div');
+        _arrRight.classList.add('btnRight');
 
-        spSlider.appendChild(arrLeft);
-        spSlider.appendChild(arrRight);
+        arSlider.appendChild(_arrLeft);
+        arSlider.appendChild(_arrRight);
+    }
+
+    function createDots() {
+        let amount =  getImgLength();
+
+        let dotsBlock = document.createElement('div');
+        dotsBlock.classList.add('dotsBlock');
+
+        for(let i = 0; i < amount; i++){
+            _dots = document.createElement('div');
+            _dots.classList.add('dotsItem');
+            dotsBlock.appendChild(_dots);
+        }
+
+        arSlider.appendChild(dotsBlock);
     }
 
     /*Функции добавляющие адаптивность*/
@@ -361,13 +564,13 @@ window.addEventListener('load', function () {
     }
 
     function setSpContainerDimensions() {
-//        spSlider.style.width = getImgDimensions().width + 'px';
+//        arSlider.style.width = getImgDimensions().width + 'px';
         /*Адаптивность по высате родительского контейнера достигается за счет динамического изменения ширины img (max-width = 100%),
          если оставить верхнюю строку, то родительский контейнер перестанет получать размеры картинки при изменении ширины окна браузера,
           т.к. при первоначальной загрузке получит фиксированные размеры от img. При последующем изменении ширины окна браузера,
           размеры img не будет изменяться.*/
 
-        spSlider.style.height = getImgDimensions().height + 'px';
+        arSlider.style.height = getImgDimensions().height + 'px';
     }
 
     let delayer = delay();
@@ -384,12 +587,12 @@ window.addEventListener('load', function () {
 
         let viewportWidth;
 
-        if(typeof window.innerWidth !== 'unefuned'){
+        if(typeof window.innerWidth != 'unefuned'){
             viewportWidth = window.innerWidth;
         }
-        else if(typeof document.documentElement !== 'unefuned' &&
-            typeof document.documentElement.clientWidth !== 'unefuned' &&
-            typeof document.documentElement.clientWidth !== 0){
+        else if(typeof document.documentElement != 'unefuned' &&
+            typeof document.documentElement.clientWidth != 'unefuned' &&
+            typeof document.documentElement.clientWidth != 0){
 
             viewportWidth = document.documentElement.clientWidth;
         }
@@ -413,7 +616,10 @@ window.addEventListener('load', function () {
     /*Функции задержки / воспроизведения*/
 
     function runAutoPlay() {
-        _inervalTimer = setInterval(moveRight, timeInterval)
+        _inervalTimer = setInterval(function () {
+               moveRight();
+               moveRightDots();
+        }, timeInterval);
     }
 
     function stopAutoPlay() {
